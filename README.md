@@ -1,3 +1,11 @@
+# Udemy course "React Hooks"
+
+This repository is used to hold my results for some of the excercises from the course [React Hooks](https://www.udemy.com/course/react-hooks/) on Udemy.
+
+
+
+# Default create-react-app readme content:
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
