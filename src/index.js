@@ -13,12 +13,16 @@ import * as serviceWorker from './serviceWorker';
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-    	<nav>
+    	<nav style={{border: '1px solid black'}}>
         <ul>
-          <li>
+          <li style={{border: '1px solid grey'}}>
+            <p><b>Course section title:</b></p>
+            <p>Abschnitt 4:Data Fetching with Hooks / Replacing
+Class Lifecycle Methods (useEffect, useRef)</p>
+            <p><b>Course section result:</b></p>
             <Link to="/section-4">Section 4</Link>
           </li>
-          <li>
+          <li style={{border: '1px solid grey'}}>
             <Link to="/section-x">Section X</Link>
           </li>
         </ul>
