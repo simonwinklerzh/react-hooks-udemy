@@ -17,8 +17,7 @@ ReactDOM.render(
         <ul>
           <li style={{border: '1px solid grey'}}>
             <p><b>Course section title:</b></p>
-            <p>Abschnitt 4:Data Fetching with Hooks / Replacing
-Class Lifecycle Methods (useEffect, useRef)</p>
+            <p>Abschnitt 4:Data Fetching with Hooks / Replacing Class Lifecycle Methods (useEffect, useRef)</p>
             <p><b>Course section result:</b></p>
             <Link to="/section-4">Section 4</Link>
           </li>
