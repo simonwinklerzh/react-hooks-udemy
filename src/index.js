@@ -6,8 +6,8 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import App_course_section_4 from './course-sections/section-4/App';
-import App_course_section_x from './course-sections/section-x/App';
+import AppCourseSection4 from './course-sections/section-4/App';
+import AppCourseSectionX from './course-sections/section-x/App';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
@@ -28,10 +28,10 @@ ReactDOM.render(
     	</nav>
       <Switch>
         <Route path="/section-4">
-          <App_course_section_4 />
+          <AppCourseSection4 />
         </Route>
         <Route path="/section-x">
-          <App_course_section_x />
+          <AppCourseSectionX />
         </Route>
       </Switch>
     </Router>
