@@ -81,31 +81,31 @@ export const normalizeResults = (
 // Avoid responding to wrongly ordered responses
 let mostRecentQuery: string | null = null;
 
+const getResults = async (query: string, setResults: Function) => {
+  if (!query) {
+    setResults([]);
+    return;
+  }
+  const currentQuery = `http://hn.algolia.com/api/v1/search?query=${query}`;
+  mostRecentQuery = currentQuery;
+  fetch(currentQuery)
+    .then(handleErrors)
+    .then(response => response.json())
+    .then(responseObject => {
+      if (currentQuery === mostRecentQuery) {
+        setResults(responseObject.hits);
+      }
+    })
+    .catch(console.error);
+}
+
 export default function App() {
   const [results, setResults] = useState([]);
   const [query, setQuery] = useState('');
 
   useEffect(() => {
-    getResults();
-  }, [query]);
-
-  const getResults = async () => {
-    if (!query) {
-      setResults([]);
-      return;
-    }
-    const currentQuery = `http://hn.algolia.com/api/v1/search?query=${query}`;
-    mostRecentQuery = currentQuery;
-    fetch(currentQuery)
-      .then(handleErrors)
-      .then(response => response.json())
-      .then(responseObject => {
-        if (currentQuery === mostRecentQuery) {
-          setResults(responseObject.hits);
-        }
-      })
-      .catch(console.error);
-  }
+    getResults(query, setResults);
+  }, [query, setResults]);
 
   return (
     <>
