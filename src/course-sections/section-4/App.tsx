@@ -131,19 +131,19 @@ export default function App() {
       <Container>
         <Row>
           <Col sm={6}>
-          <InputGroup className="mb-3">
-            <FormControl
-              placeholder="Enter search term"
-              aria-label="Enter search term"
-              aria-describedby="basic-addon2"
-              onChange={(e) => {
-                setQuery(e.target.value);
-              }}
-            />
-            <InputGroup.Append>
-              <Button onClick={() => getResults(query, setResults)}>Search</Button>
-            </InputGroup.Append>
-          </InputGroup>
+            <InputGroup className="mb-3">
+              <FormControl
+                placeholder="Enter search term"
+                aria-label="Enter search term"
+                aria-describedby="basic-addon2"
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                }}
+              />
+              <InputGroup.Append>
+                <Button onClick={() => getResults(query, setResults)}>Search</Button>
+              </InputGroup.Append>
+            </InputGroup>
           </Col>
         </Row>
         <hr />
