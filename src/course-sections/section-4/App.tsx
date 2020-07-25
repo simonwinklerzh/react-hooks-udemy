@@ -7,7 +7,8 @@ import {
   Badge,
   Button,
   InputGroup,
-  FormControl
+  FormControl,
+  Alert
  } from 'react-bootstrap';
 import { handleErrors } from '../../utilities';
 
@@ -102,13 +103,14 @@ let mostRecentQuery: string | null = null;
 const getResults = async (
   query: string,
   setResults: Function,
-  setLoading: Function
+  setLoading: Function,
+  setError: Function
 ) => {
   if (!query) {
     setResults([]);
     return;
   }
-  const currentQuery = `http://hn.algolia.com/api/v1/search?query=${query}`;
+  const currentQuery = `http://hn.algolia.com/api/v1/searchquery=${query}`;
   mostRecentQuery = currentQuery;
   setLoading(true);
   fetch(currentQuery)
@@ -118,11 +120,14 @@ const getResults = async (
       if (currentQuery === mostRecentQuery) {
         setResults(responseObject.hits);
         setLoading(false);
+        setError(false);
       }
     })
     .catch((error) => {
       console.error(error);
       setLoading(false);
+      setResults([]);
+      setError(error);
     });
 }
 
@@ -130,10 +135,11 @@ export default function App() {
   const [results, setResults] = useState([]);
   const [query, setQuery] = useState('');
   const [isLoading, setLoading] = useState(false);
+  const [error, setError] = useState<false | Error>(false);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    getResults(query, setResults, setLoading);
+    getResults(query, setResults, setLoading, setError);
   };
 
   return (
@@ -169,20 +175,47 @@ export default function App() {
         </Row>
         <hr />
         { results.length
-          ? <div className="mb-3 text-secondary"><b>Displaying {results.length} results</b></div>
+          ? (
+            <>
+              <div className="mb-3 text-secondary"><b>Displaying {results.length} results</b></div>
+              <ul>
+                {results
+                  .reduce(normalizeResults, [])
+                  .map((result: INewsListEntry, index) => (
+                    <NewsListEntry key={index}
+                      url={result.url}
+                      title={result.title}
+                      author={result.author}
+                      points={result.points} />
+                ))}
+              </ul>
+            </>
+          )
           : null
         }
-        <ul>
-          {results
-            .reduce(normalizeResults, [])
-            .map((result: INewsListEntry, index) => (
-              <NewsListEntry key={index}
-                url={result.url}
-                title={result.title}
-                author={result.author}
-                points={result.points} />
-          ))}
-        </ul>
+        { error
+          ? (
+            <Alert variant="danger">
+              <Alert.Heading>We're sorry, an error has occured</Alert.Heading>
+              <p>
+                There probably is an problem on our side, but there might also be a problem with your internet connection.
+              </p>
+              <p className="mb-0">
+                Please try it again. If the problem still exists, plese contact your administrator.
+              </p>
+              <hr />
+              <p>
+                <p><b>Error message:</b></p>
+                <Alert variant="light">
+                  <pre className="mb-0">
+                  { error.message }
+                  </pre>
+                </Alert>
+              </p>
+            </Alert>
+          )
+          : null
+        }
       </Container>
     </>
   );
