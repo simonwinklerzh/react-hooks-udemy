@@ -99,19 +99,25 @@ export const normalizeResults = (
 // Avoid responding to wrongly ordered responses
 let mostRecentQuery: string | null = null;
 
-const getResults = async (query: string, setResults: Function) => {
+const getResults = async (
+  query: string,
+  setResults: Function,
+  setLoading: Function
+) => {
   if (!query) {
     setResults([]);
     return;
   }
   const currentQuery = `http://hn.algolia.com/api/v1/search?query=${query}`;
   mostRecentQuery = currentQuery;
+  setLoading(true);
   fetch(currentQuery)
     .then(handleErrors)
     .then(response => response.json())
     .then(responseObject => {
       if (currentQuery === mostRecentQuery) {
         setResults(responseObject.hits);
+        setLoading(false);
       }
     })
     .catch(console.error);
@@ -120,10 +126,11 @@ const getResults = async (query: string, setResults: Function) => {
 export default function App() {
   const [results, setResults] = useState([]);
   const [query, setQuery] = useState('');
+  const [isLoading, setLoading] = useState(false);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    getResults(query, setResults);
+    getResults(query, setResults, setLoading);
   };
 
   return (
@@ -147,7 +154,11 @@ export default function App() {
                   }}
                 />
                 <InputGroup.Append>
-                  <Button type="submit">Search</Button>
+                  <Button
+                    type="submit"
+                    disabled={isLoading}>{
+                      isLoading ? 'Loading...' : 'Search'
+                    }</Button>
                 </InputGroup.Append>
               </InputGroup>
             </form>
