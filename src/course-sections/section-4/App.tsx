@@ -80,7 +80,7 @@ export const normalizeResults = (
 
 export default function App() {
   const [results, setResults] = useState([]);
-  const [query, setQuery] = useState('reacthooks');
+  const [query, setQuery] = useState('react hooks');
 
   useEffect(() => {
     fetch(`http://hn.algolia.com/api/v1/search?query=${query}`)
