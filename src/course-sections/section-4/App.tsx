@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react';
 import {
   Jumbotron,
   Container,
-  Badge
+  Row,
+  Col,
+  Badge,
+  Button,
+  InputGroup,
+  FormControl
  } from 'react-bootstrap';
 import { handleErrors } from '../../utilities';
 
@@ -128,16 +133,26 @@ export default function App() {
         </Container>
       </Jumbotron>
       <Container>
-        <input
-          type="text"
-          placeholder="Enter search term"
-          value={query}
-          onChange={(e) => {
-            setQuery(e.target.value);
-          }} />
+        <Row>
+          <Col sm={6}>
+          <InputGroup className="mb-3">
+            <FormControl
+              placeholder="Enter search term"
+              aria-label="Enter search term"
+              aria-describedby="basic-addon2"
+              onChange={(e) => {
+                setQuery(e.target.value);
+              }}
+            />
+            <InputGroup.Append>
+              <Button>Search</Button>
+            </InputGroup.Append>
+          </InputGroup>
+          </Col>
+        </Row>
         <hr />
         { results.length
-          ? <b>Displaying {results.length} results</b>
+          ? <div className="mb-3 text-secondary"><b>Displaying {results.length} results</b></div>
           : null
         }
         <ul>

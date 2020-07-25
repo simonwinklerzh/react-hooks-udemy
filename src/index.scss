@@ -1,6 +1,10 @@
 @import "custom-bootstrap-variables.scss";
 @import "~bootstrap/scss/bootstrap.scss";
 
+body {
+  padding-bottom: 50px;
+}
+
 .layout__nav-container {
   background-color: theme-color("primary");
   padding-top: $card-group-margin;
