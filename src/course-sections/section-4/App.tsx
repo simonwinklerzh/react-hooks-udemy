@@ -82,15 +82,26 @@ export default function App() {
   const [results, setResults] = useState([]);
   const [query, setQuery] = useState('react hooks');
 
+  let mostRecentQuery: string | null = null;
+
   useEffect(() => {
-    fetch(`http://hn.algolia.com/api/v1/search?query=${query}`)
+    getResults();
+  }, [query]);
+
+
+  const getResults = async () => {
+    const currentQuery = `http://hn.algolia.com/api/v1/search?query=${query}`;
+    mostRecentQuery = currentQuery;
+    fetch(currentQuery)
       .then(handleErrors)
       .then(response => response.json())
       .then(responseObject => {
-        setResults(responseObject.hits);
+        if (currentQuery === mostRecentQuery) {
+          setResults(responseObject.hits);
+        }
       })
       .catch(console.error);
-  }, [query]);
+  }
 
   return (
     <>
