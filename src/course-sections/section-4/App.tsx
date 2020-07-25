@@ -91,6 +91,7 @@ export default function App() {
 
   const getResults = async () => {
     if (!query) {
+      setResults([]);
       return;
     }
     const currentQuery = `http://hn.algolia.com/api/v1/search?query=${query}`;
