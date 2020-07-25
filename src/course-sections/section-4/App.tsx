@@ -121,10 +121,6 @@ export default function App() {
   const [results, setResults] = useState([]);
   const [query, setQuery] = useState('');
 
-  useEffect(() => {
-    getResults(query, setResults);
-  }, [query, setResults]);
-
   return (
     <>
       <Jumbotron fluid>
@@ -145,7 +141,7 @@ export default function App() {
               }}
             />
             <InputGroup.Append>
-              <Button>Search</Button>
+              <Button onClick={() => getResults(query, setResults)}>Search</Button>
             </InputGroup.Append>
           </InputGroup>
           </Col>
