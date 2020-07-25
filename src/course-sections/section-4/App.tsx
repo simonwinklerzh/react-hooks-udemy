@@ -120,7 +120,10 @@ const getResults = async (
         setLoading(false);
       }
     })
-    .catch(console.error);
+    .catch((error) => {
+      console.error(error);
+      setLoading(false);
+    });
 }
 
 export default function App() {
