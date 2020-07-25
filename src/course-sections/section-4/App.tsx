@@ -110,7 +110,7 @@ const getResults = async (
     setResults([]);
     return;
   }
-  const currentQuery = `http://hn.algolia.com/api/v1/searchquery=${query}`;
+  const currentQuery = `http://hn.algolia.com/api/v1/search?query=${query}`;
   mostRecentQuery = currentQuery;
   setLoading(true);
   fetch(currentQuery)
