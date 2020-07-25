@@ -144,12 +144,8 @@ export default function App() {
 
   return (
     <>
-      <Jumbotron fluid>
-        <Container>
-          <h4>Search the hackernews API</h4>
-        </Container>
-      </Jumbotron>
       <Container>
+        <h4 className="mt-3">Search on Hacker News</h4>
         <Row>
           <Col sm={6}>
             <form onSubmit={handleSubmit}>
