@@ -1,4 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import {
+  Jumbotron,
+  Container,
+  Badge
+ } from 'react-bootstrap';
 import { handleErrors } from '../../utilities';
 
 // Properties that we expect to get from the server
@@ -8,6 +13,7 @@ export interface INewsListEntryRaw {
   story_url?: string;
   story_title?: string;
   author?: string;
+  points?: number;
 }
 
 // Properties that we need to have for rendering our news list
@@ -15,12 +21,14 @@ export interface INewsListEntry {
   url?: string;
   title: string;
   author: string;
+  points: number;
 }
 
 export const NewsListEntry = ({
   url,
   title,
-  author
+  author,
+  points
 }: INewsListEntry) => (
   <li>
     { url
@@ -29,6 +37,8 @@ export const NewsListEntry = ({
     }
     &nbsp;
     <small>Author: <b>{author}</b></small>
+    {' '}
+    <Badge variant="secondary">Points: {points}</Badge>
   </li>
 );
 
@@ -67,6 +77,9 @@ export const normalizeResults = (
   }
   if (current.author) {
     normalizedResult.author = current.author;
+  }
+  if (current.points) {
+    normalizedResult.points = current.points;
   }
   // We have not found a title.
   // Exclude the current object from the return array.
@@ -109,23 +122,36 @@ export default function App() {
 
   return (
     <>
-      <div>App Section 4</div>
-      <input
-        type="text"
-        value={query}
-        onChange={(e) => {
-          setQuery(e.target.value);
-        }} />
-      <ul>
-        {results
-          .reduce(normalizeResults, [])
-          .map((result: INewsListEntry, index) => (
-            <NewsListEntry key={index}
-              url={result.url}
-              title={result.title}
-              author={result.author} />
-        ))}
-      </ul>
+      <Jumbotron fluid>
+        <Container>
+          <h4>Search the hackernews API</h4>
+        </Container>
+      </Jumbotron>
+      <Container>
+        <input
+          type="text"
+          placeholder="Enter search term"
+          value={query}
+          onChange={(e) => {
+            setQuery(e.target.value);
+          }} />
+        <hr />
+        { results.length
+          ? <b>Displaying {results.length} results</b>
+          : null
+        }
+        <ul>
+          {results
+            .reduce(normalizeResults, [])
+            .map((result: INewsListEntry, index) => (
+              <NewsListEntry key={index}
+                url={result.url}
+                title={result.title}
+                author={result.author}
+                points={result.points} />
+          ))}
+        </ul>
+      </Container>
     </>
   );
 }

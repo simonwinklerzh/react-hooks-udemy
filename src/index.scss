@@ -1,0 +1,12 @@
+@import "custom-bootstrap-variables.scss";
+@import "~bootstrap/scss/bootstrap.scss";
+
+.layout__nav-container {
+  background-color: theme-color("primary");
+  padding-top: $card-group-margin;
+  padding-bottom: $card-group-margin;
+}
+
+.layout__nav-entry-container {
+  margin-right: 15px;
+}

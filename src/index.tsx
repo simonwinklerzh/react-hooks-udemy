@@ -5,27 +5,46 @@ import {
   Switch,
   Route,
   Link
-} from "react-router-dom";
+} from 'react-router-dom';
+import {
+  Card,
+  CardGroup,
+  Container
+ } from 'react-bootstrap';
 import AppCourseSection4 from './course-sections/section-4/App';
 import AppCourseSectionX from './course-sections/section-x/App';
 import * as serviceWorker from './serviceWorker';
+import './index.scss';
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-    	<nav style={{border: '1px solid black'}}>
-        <ul>
-          <li style={{border: '1px solid grey'}}>
-            <p><b>Course section title:</b></p>
-            <p>Abschnitt 4:Data Fetching with Hooks / Replacing Class Lifecycle Methods (useEffect, useRef)</p>
-            <p><b>Course section result:</b></p>
-            <Link to="/section-4">Section 4</Link>
-          </li>
-          <li style={{border: '1px solid grey'}}>
-            <Link to="/section-x">Section X</Link>
-          </li>
-        </ul>
-    	</nav>
+      <div className="layout__nav-container">
+        <Container fluid>
+          <CardGroup>
+            <Card bg="light">
+              <Card.Body>
+                <Card.Title>Section 4</Card.Title>
+                <Card.Subtitle className="mb-2 text-muted">Section title:</Card.Subtitle>
+                <Card.Text>
+                  <small>Abschnitt 4: Data Fetching with Hooks / Replacing Class Lifecycle Methods (useEffect, useRef)</small>
+                </Card.Text>
+                <Link to="/section-4">Show result</Link>
+              </Card.Body>
+            </Card>
+            <Card bg="light">
+              <Card.Body>
+                <Card.Title>Section 5</Card.Title>
+                <Card.Subtitle className="mb-2 text-muted">Section title:</Card.Subtitle>
+                <Card.Text>
+                  <small>Abschnitt 5: Building a Complete CRUD App with React Hooks / Replacing Redux</small>
+                </Card.Text>
+                <Link to="/section-x">Show result</Link>
+              </Card.Body>
+            </Card>
+          </CardGroup>
+        </Container>
+      </div>
       <Switch>
         <Route path="/section-4">
           <AppCourseSection4 />
