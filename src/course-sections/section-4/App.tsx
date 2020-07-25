@@ -78,18 +78,21 @@ export const normalizeResults = (
   return [...normalizedResults, normalizedResult];
 }
 
+// Avoid responding to wrongly ordered responses
+let mostRecentQuery: string | null = null;
+
 export default function App() {
   const [results, setResults] = useState([]);
-  const [query, setQuery] = useState('react hooks');
-
-  let mostRecentQuery: string | null = null;
+  const [query, setQuery] = useState('');
 
   useEffect(() => {
     getResults();
   }, [query]);
 
-
   const getResults = async () => {
+    if (!query) {
+      return;
+    }
     const currentQuery = `http://hn.algolia.com/api/v1/search?query=${query}`;
     mostRecentQuery = currentQuery;
     fetch(currentQuery)
