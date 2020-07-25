@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, FormEvent } from 'react';
 import {
   Jumbotron,
   Container,
@@ -121,6 +121,11 @@ export default function App() {
   const [results, setResults] = useState([]);
   const [query, setQuery] = useState('');
 
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    getResults(query, setResults);
+  };
+
   return (
     <>
       <Jumbotron fluid>
@@ -131,19 +136,21 @@ export default function App() {
       <Container>
         <Row>
           <Col sm={6}>
-            <InputGroup className="mb-3">
-              <FormControl
-                placeholder="Enter search term"
-                aria-label="Enter search term"
-                aria-describedby="basic-addon2"
-                onChange={(e) => {
-                  setQuery(e.target.value);
-                }}
-              />
-              <InputGroup.Append>
-                <Button onClick={() => getResults(query, setResults)}>Search</Button>
-              </InputGroup.Append>
-            </InputGroup>
+            <form onSubmit={handleSubmit}>
+              <InputGroup className="mb-3">
+                <FormControl
+                  placeholder="Enter search term"
+                  aria-label="Enter search term"
+                  aria-describedby="basic-addon2"
+                  onChange={(e) => {
+                    setQuery(e.target.value);
+                  }}
+                />
+                <InputGroup.Append>
+                  <Button type="submit">Search</Button>
+                </InputGroup.Append>
+              </InputGroup>
+            </form>
           </Col>
         </Row>
         <hr />
