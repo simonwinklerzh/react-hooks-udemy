@@ -14,7 +14,7 @@ import {
   Container
  } from 'react-bootstrap';
 import AppCourseSection4 from './course-sections/section-4/App';
-import AppCourseSectionX from './course-sections/section-x/App';
+import AppCourseSection5 from './course-sections/section-5/App';
 import * as serviceWorker from './serviceWorker';
 import './index.scss';
 
@@ -108,7 +108,7 @@ ReactDOM.render(
           <AppCourseSection4 />
         </Route>
         <Route path="/section-x">
-          <AppCourseSectionX />
+          <AppCourseSection5 />
         </Route>
       </Switch>
     </Router>
