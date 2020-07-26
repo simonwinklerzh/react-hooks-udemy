@@ -1,24 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Container
 } from 'react-bootstrap';
 
-const UserContext = React.createContext({
-  userName: 'User name'
-});
+interface IUserContext {
+  userName: string;
+}
+
+const defaultUserContext: IUserContext = {
+  userName: 'Simon'
+}
+
+const UserContext = React.createContext<IUserContext>(defaultUserContext);
 
 export default function App() {
+  const userContext: IUserContext = useContext(UserContext);
+
   return (
-    <UserContext.Provider value={{
-      userName: 'Simon'
-    }}>
-      <UserContext.Consumer>
-        {(value) => (
-          <Container>
-            <h1>Hello {value.userName}</h1>
-          </Container>
-        )}
-      </UserContext.Consumer>
-    </UserContext.Provider>
+    <Container>
+      <h1>Hello {userContext.userName}</h1>
+    </Container>
   );
 }
