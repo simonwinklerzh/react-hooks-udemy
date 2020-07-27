@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 import {
   Container,
   ListGroup,
-  Form
+  Form,
+  Button
 } from 'react-bootstrap';
 import { AppContext, TodoType } from '../context';
 import { ActionTypes, TodoActions } from '../reducer';
@@ -22,6 +23,17 @@ const TodoItemTemplate = (todo: TodoType, dispatch: React.Dispatch<TodoActions>)
         checked={todo.complete}
         type="checkbox"
         label={todo.text} />
+      <Button
+        onClick={(e: React.MouseEvent) => {
+          dispatch({
+            type: ActionTypes.REMOVE_TODO,
+            payload: {
+              id: todo.id
+            }
+          })
+        }}
+        type="button"
+        variant="warning">Remove</Button>
     </Form.Group>
   </ListGroup.Item>
 );

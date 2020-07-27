@@ -12,11 +12,15 @@ type ActionMap<M extends { [index: string]: any }> = {
 };
 
 export enum ActionTypes {
-  TOGGLE_TODO = 'TOGGLE_TODO'
+  TOGGLE_TODO = 'TOGGLE_TODO',
+  REMOVE_TODO = 'REMOVE_TODO'
 }
 
 type TodoPayload = {
   [ActionTypes.TOGGLE_TODO]: {
+    id: TodoType['id'];
+  },
+  [ActionTypes.REMOVE_TODO]: {
     id: TodoType['id'];
   }
 }
@@ -34,6 +38,11 @@ export const todosReducer = (state: TodoStateType, action: TodoActions) => {
           }
           return todo;
         })
+      };
+    case ActionTypes.REMOVE_TODO:
+      return {
+        ...state,
+        todos: state.todos.filter((todo: TodoType) => todo.id !== action.payload.id)
       };
     default:
       return state;
