@@ -9,7 +9,18 @@ import { AppContext, TodoType } from '../context';
 const TodoItemTemplate = (todo: TodoType, dispatch: React.Dispatch<any>) => (
   <ListGroup.Item key={todo.id}>
     <Form.Group  className="mb-0" controlId={`formBasicCheckbox-${todo.id}`}>
-      <Form.Check checked={todo.complete} type="checkbox" label={todo.text} />
+      <Form.Check
+        onChange={(e: React.ChangeEvent) => {
+          dispatch({
+            type: 'TOGGLE_TODO',
+            payload: {
+              id: todo.id
+            }
+          });
+        }}
+        checked={todo.complete}
+        type="checkbox"
+        label={todo.text} />
     </Form.Group>
   </ListGroup.Item>
 );

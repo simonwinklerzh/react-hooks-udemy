@@ -6,7 +6,7 @@ export type TodoType = {
   complete: boolean;
 }
 
-type InitialStateType = {
+export type TodoStateType = {
   todos: TodoType[];
 }
 
@@ -17,8 +17,12 @@ export const initialState = {
   ]
 }
 
+export const getTodoById = (state: TodoStateType, id: TodoType['id']) => {
+  return state.todos.find(todo => todo.id === id);
+}
+
 export const AppContext = createContext<{
-  state: InitialStateType;
+  state: TodoStateType;
   dispatch: React.Dispatch<any>;
 }>({
   state: initialState,
