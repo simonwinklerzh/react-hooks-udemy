@@ -5,14 +5,15 @@ import {
   Form
 } from 'react-bootstrap';
 import { AppContext, TodoType } from '../context';
+import { ActionTypes, TodoActions } from '../reducer';
 
-const TodoItemTemplate = (todo: TodoType, dispatch: React.Dispatch<any>) => (
+const TodoItemTemplate = (todo: TodoType, dispatch: React.Dispatch<TodoActions>) => (
   <ListGroup.Item key={todo.id}>
     <Form.Group  className="mb-0" controlId={`formBasicCheckbox-${todo.id}`}>
       <Form.Check
         onChange={(e: React.ChangeEvent) => {
           dispatch({
-            type: 'TOGGLE_TODO',
+            type: ActionTypes.TOGGLE_TODO,
             payload: {
               id: todo.id
             }

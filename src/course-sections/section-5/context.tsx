@@ -1,4 +1,5 @@
 import React, { createContext } from 'react';
+import { TodoActions } from './reducer';
 
 export type TodoType = {
   id: number;
@@ -23,7 +24,7 @@ export const getTodoById = (state: TodoStateType, id: TodoType['id']) => {
 
 export const AppContext = createContext<{
   state: TodoStateType;
-  dispatch: React.Dispatch<any>;
+  dispatch: React.Dispatch<TodoActions>;
 }>({
   state: initialState,
   dispatch: () => null
