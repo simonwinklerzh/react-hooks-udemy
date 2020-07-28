@@ -1,4 +1,4 @@
-import { getTodoById, TodoType, TodoStateType } from './context';
+import { TodoType, TodoStateType } from './context';
 
 type ActionMap<M extends { [index: string]: any }> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -13,7 +13,10 @@ type ActionMap<M extends { [index: string]: any }> = {
 
 export enum ActionTypes {
   TOGGLE_TODO = 'TOGGLE_TODO',
-  REMOVE_TODO = 'REMOVE_TODO'
+  REMOVE_TODO = 'REMOVE_TODO',
+  ADD_TODO = 'ADD_TODO',
+  UPDATE_TODO = 'UPDATE_TODO',
+  EDIT_TODO = 'EDIT_TODO'
 }
 
 type TodoPayload = {
@@ -22,7 +25,16 @@ type TodoPayload = {
   },
   [ActionTypes.REMOVE_TODO]: {
     id: TodoType['id'];
-  }
+  },
+  [ActionTypes.ADD_TODO]: {
+    todo: TodoType;
+  },
+  [ActionTypes.UPDATE_TODO]: {
+    todo: TodoType;
+  },
+  [ActionTypes.EDIT_TODO]: {
+    editId: TodoType['id'] | null;
+  },
 }
 
 export type TodoActions = ActionMap<TodoPayload>[keyof ActionMap<TodoPayload>];
@@ -44,6 +56,27 @@ export const todosReducer = (state: TodoStateType, action: TodoActions) => {
         ...state,
         todos: state.todos.filter((todo: TodoType) => todo.id !== action.payload.id)
       };
+    case ActionTypes.ADD_TODO:
+      return {
+        ...state,
+        todos: [action.payload.todo, ...state.todos]
+      }
+    case ActionTypes.UPDATE_TODO:
+      return {
+        ...state,
+        editId: null,
+        todos: state.todos.map(todo => {
+          if (todo.id === action.payload.todo.id) {
+            return action.payload.todo;
+          }
+          return todo;
+        })
+      }
+    case ActionTypes.EDIT_TODO:
+      return {
+        ...state,
+        editId: action.payload.editId
+      }
     default:
       return state;
   }
