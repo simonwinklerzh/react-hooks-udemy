@@ -25,7 +25,7 @@ export const TodoForm = () => {
   const [ todo, setTodo ] = useState(createNewTodo());
   return (
     <Container>
-      <h2>Create Todo</h2>
+      <h1 className="mt-3 h4">Create Todo</h1>
       <form onSubmit={(e: FormEvent) => {
         e.preventDefault();
         handleSubmit(todo, dispatch);

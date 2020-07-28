@@ -15,40 +15,48 @@ const TodoItemTemplate = (
 ) => (
   <ListGroup.Item key={todo.id}>
     <Form.Group  className="mb-0" controlId={`formBasicCheckbox-${todo.id}`}>
-      <Form.Check
-        onChange={(e: React.ChangeEvent) => {
-          dispatch({
-            type: ActionTypes.TOGGLE_TODO,
-            payload: {
-              id: todo.id
-            }
-          });
-        }}
-        checked={todo.complete}
-        type="checkbox"
-        label={todo.text} />
-      <Button
-        onClick={(e: React.MouseEvent) => {
-          dispatch({
-            type: ActionTypes.REMOVE_TODO,
-            payload: {
-              id: todo.id
-            }
-          })
-        }}
-        type="button"
-        variant="warning">Remove</Button>
-      <Button
-        onClick={(e: React.MouseEvent) => {
-          dispatch({
-            type: ActionTypes.EDIT_TODO,
-            payload: {
-              editId: todo.id
-            }
-          })
-        }}
-        type="button"
-        variant="info">Edit</Button>
+      <div className="d-flex justify-content-between align-items-center">
+        <Form.Check
+          onChange={(e: React.ChangeEvent) => {
+            dispatch({
+              type: ActionTypes.TOGGLE_TODO,
+              payload: {
+                id: todo.id
+              }
+            });
+          }}
+          checked={todo.complete}
+          type="checkbox"
+          className="d-flex align-items-center"
+          label={todo.text} />
+        <div>
+          <Button
+            onClick={(e: React.MouseEvent) => {
+              dispatch({
+                type: ActionTypes.EDIT_TODO,
+                payload: {
+                  editId: todo.id
+                }
+              })
+            }}
+            type="button"
+            variant="info"
+            size="sm">Edit</Button>
+           {' '}
+          <Button
+            onClick={(e: React.MouseEvent) => {
+              dispatch({
+                type: ActionTypes.REMOVE_TODO,
+                payload: {
+                  id: todo.id
+                }
+              })
+            }}
+            type="button"
+            variant="warning"
+            size="sm">Remove</Button>
+        </div>
+      </div>
     </Form.Group>
   </ListGroup.Item>
 );
@@ -107,7 +115,7 @@ export const TodoList = () => {
   const editTodoInputRef = useRef<HTMLInputElement>(null);
   return (
     <Container>
-      <h4 className="mt-3">Todos</h4>
+      <h2 className="mt-3 h4">Todos</h2>
       { state.todos.length
         ? (
           <ListGroup>

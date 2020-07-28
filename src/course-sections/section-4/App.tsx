@@ -144,7 +144,7 @@ export default function App() {
   return (
     <>
       <Container>
-        <h4 className="mt-3">Search on Hacker News</h4>
+        <h1 className="mt-3 h4">Search on Hacker News</h1>
         <Row>
           <Col sm={6}>
             <form onSubmit={handleSubmit}>
