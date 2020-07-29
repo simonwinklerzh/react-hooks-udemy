@@ -152,6 +152,7 @@ export default function App() {
             <form onSubmit={handleSubmit}>
               <InputGroup className="mb-3">
                 <FormControl
+                  autoFocus
                   placeholder="Enter search term"
                   aria-label="Enter search term"
                   aria-describedby="basic-addon2"
