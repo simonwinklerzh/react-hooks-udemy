@@ -33,6 +33,7 @@ export const TodoForm = () => {
       }}>
         <InputGroup className="mb-3">
           <FormControl
+            autoFocus
             placeholder="What has to be done next?"
             aria-label="Create new Todo"
             aria-describedby="basic-addon2"

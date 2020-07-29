@@ -20,6 +20,14 @@ import {
 } from '../context';
 import { ActionTypes, TodoActions } from '../reducer';
 
+const EmptyTodoList = () => (
+  <ListGroup>
+    <ListGroup.Item>
+      <p className=" text-muted mb-0"><em>Add some todos using the input field above</em></p>
+    </ListGroup.Item>
+  </ListGroup>
+);
+
 const TodoItemTemplate = (
   todo: TodoType,
   dispatch: React.Dispatch<TodoActions>,
@@ -300,7 +308,7 @@ export const TodoList = () => {
             })}
           </ListGroup>
         )
-        : null
+        : <EmptyTodoList />
       }
       <div className="d-flex justify-content-between">
         { FilterButtons(state, dispatch) }
