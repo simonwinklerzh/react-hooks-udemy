@@ -26,6 +26,37 @@ export const getTodoById = (state: TodoStateType, id: TodoType['id']) => {
   return state.todos.find(todo => todo.id === id);
 }
 
+export const getActiveTodos = (state: TodoStateType) => state.todos.filter(todo => {
+  return todo.complete !== true;
+});
+
+export const getActiveTodosCount = (state: TodoStateType) => {
+  return getActiveTodos(state)
+    ? getActiveTodos(state).length
+    : 0
+}
+
+export const getCompletedTodos = (state: TodoStateType) => state.todos.filter(todo => {
+  return todo.complete === true;
+});
+
+export const getCompletedTodosCount = (state: TodoStateType) => {
+  return getCompletedTodos(state)
+    ? getCompletedTodos(state).length
+    : 0
+}
+
+export const todoFilterFunction = (todo: TodoType, filter: FilterType): boolean => {
+  switch (filter) {
+    case FilterType.COMPLETE:
+      return todo.complete === true;
+    case FilterType.ACTIVE:
+      return todo.complete === false;
+    default:
+      return true;
+  }
+}
+
 export const initialState = {
   todos: [
     {...createNewTodo(), text: 'Apfel'},

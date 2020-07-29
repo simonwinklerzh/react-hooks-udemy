@@ -8,7 +8,15 @@ import {
   Form,
   Button
 } from 'react-bootstrap';
-import { AppContext, TodoType, TodoStateType, FilterType } from '../context';
+import {
+  AppContext,
+  TodoType,
+  TodoStateType,
+  FilterType,
+  getActiveTodosCount,
+  getCompletedTodosCount,
+  todoFilterFunction
+} from '../context';
 import { ActionTypes, TodoActions } from '../reducer';
 
 const TodoItemTemplate = (
@@ -231,7 +239,8 @@ const ClearButton = (
   state: TodoStateType,
   dispatch: React.Dispatch<TodoActions>
 ) => (
-  <div className="mt-3 d-flex align-items-end">
+  <div className="mt-3 d-flex align-items-end flex-column">
+    { TodosInfo(state) }
     <Button
       onClick={(e: React.MouseEvent) => {
         dispatch({
@@ -251,26 +260,32 @@ const ClearButton = (
   </div>
 );
 
+const TodosInfo = (
+  state: TodoStateType
+) => (
+  <p className="text-muted">
+    <small>
+      <span className="mr-2">Todos: {state.todos.length}</span>
+      <span className="mr-2">Active: {getActiveTodosCount(state)}</span>
+      <span>Complete: {getCompletedTodosCount(state)}</span>
+    </small>
+  </p>
+)
+
 export const TodoList = () => {
   const { state, dispatch } = useContext(AppContext);
   const editTodoInputRef = useRef<HTMLInputElement>(null);
   return (
     <Container>
-      <h2 className="mt-3 h4">Todos</h2>
+      <div className="mt-3 d-flex justify-content-between">
+        <h2 className="h4">Todos</h2>
+        { TodosInfo(state) }
+      </div>
       { state.todos.length
         ? (
           <ListGroup>
             {state.todos
-              .filter(todo => {
-                switch (state.filterType) {
-                  case FilterType.COMPLETE:
-                    return todo.complete === true;
-                  case FilterType.ACTIVE:
-                    return todo.complete === false;
-                  default:
-                    return true;
-                }
-              })
+              .filter(todo => todoFilterFunction(todo, state.filterType))
               .map(todo => {
                 return todo.id === state.editId
                   ? EditTodoItemTemplate(todo, dispatch, state.editId, editTodoInputRef)
