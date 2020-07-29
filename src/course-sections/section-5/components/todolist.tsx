@@ -107,16 +107,24 @@ const EditTodoItemTemplate = (
   <ListGroup.Item key={todo.id}>
     <Form onSubmit={(e: FormEvent) => {
         e.preventDefault();
-        if (editTodoInputRef?.current) {
-          dispatch({
-            type: ActionTypes.UPDATE_TODO,
-            payload: {
-              todo: {
-                ...todo,
-                text: editTodoInputRef.current.value
+        if (editTodoInputRef?.current?.value) {
+          // Dispatch the action if the value consists of more than white spaces
+          if (editTodoInputRef.current.value.trim()) {
+            dispatch({
+              type: ActionTypes.UPDATE_TODO,
+              payload:   {
+                todo: {
+                  ...todo,
+                  text: editTodoInputRef.current.value
+                }
               }
-            }
-          });
+            });
+          }
+          // Otherwise reset the input field to an empty string
+          else {
+            editTodoInputRef.current.value = '';
+            editTodoInputRef.current.focus();
+          }
         }
       }}>
       <Form.Group  className="mb-0" controlId={`formBasicCheckbox-${todo.id}`}>

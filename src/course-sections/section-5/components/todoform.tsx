@@ -12,7 +12,7 @@ const handleSubmit = (
   todo: TodoType,
   dispatch: React.Dispatch<TodoActions>
 ) => {
-  if (todo.text) {
+  if (todo.text.trim()) {
     dispatch({
       type: ActionTypes.ADD_TODO,
       payload: { todo }
