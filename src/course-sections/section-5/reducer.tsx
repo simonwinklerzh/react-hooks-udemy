@@ -1,4 +1,4 @@
-import { TodoType, TodoStateType } from './context';
+import { TodoType, TodoStateType, FilterType } from './context';
 
 type ActionMap<M extends { [index: string]: any }> = {
   [Key in keyof M]: M[Key] extends undefined
@@ -16,7 +16,9 @@ export enum ActionTypes {
   REMOVE_TODO = 'REMOVE_TODO',
   ADD_TODO = 'ADD_TODO',
   UPDATE_TODO = 'UPDATE_TODO',
-  EDIT_TODO = 'EDIT_TODO'
+  EDIT_TODO = 'EDIT_TODO',
+  SET_FILTER = 'SET_FILTER',
+  CLEAR_COMPLETED = 'CLEAR_COMPLETED'
 }
 
 type TodoPayload = {
@@ -35,6 +37,10 @@ type TodoPayload = {
   [ActionTypes.EDIT_TODO]: {
     editId: TodoType['id'] | null;
   },
+  [ActionTypes.SET_FILTER]: {
+    filter: FilterType;
+  },
+  [ActionTypes.CLEAR_COMPLETED]: true
 }
 
 export type TodoActions = ActionMap<TodoPayload>[keyof ActionMap<TodoPayload>];

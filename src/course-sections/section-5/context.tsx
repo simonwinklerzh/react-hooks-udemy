@@ -8,9 +8,16 @@ export type TodoType = {
   complete: boolean;
 }
 
+export enum FilterType {
+  ALL = 'ALL',
+  ACTIVE = 'ACTIVE',
+  COMPLETE = 'COMPLETE'
+}
+
 export type TodoStateType = {
   todos: TodoType[];
   editId: string | null;
+  filterType: FilterType;
 }
 
 export const createNewTodo = (): TodoType => ({ id: uuidv4(), text: '', complete: false });
@@ -25,7 +32,8 @@ export const initialState = {
     {...createNewTodo(), text: 'Birne'},
     {...createNewTodo(), text: 'Orange'}
   ],
-  editId: null
+  editId: null,
+  filterType: FilterType.ALL
 }
 
 export const AppContext = createContext<{

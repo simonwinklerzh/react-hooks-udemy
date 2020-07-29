@@ -8,7 +8,7 @@ import {
   Form,
   Button
 } from 'react-bootstrap';
-import { AppContext, TodoType, TodoStateType } from '../context';
+import { AppContext, TodoType, TodoStateType, FilterType } from '../context';
 import { ActionTypes, TodoActions } from '../reducer';
 
 const TodoItemTemplate = (
@@ -178,13 +178,23 @@ export const TodoList = () => {
       <div className="mt-3">
         <p>Filter todos:</p>
         <ButtonGroup aria-label="Basic example">
-          <Button type="button" className="d-flex align-items-center">
+          <Button
+            type="button"
+            className={`${state.filterType === FilterType.ALL
+              ? 'active'
+              : ''
+            } d-flex align-items-center`}>
             <svg style={{ width: '24px', height: '24px', marginRight: '4px' }} width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-list" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
               <path fillRule="evenodd" d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
             </svg>
             All
           </Button>
-          <Button type="button" className="d-flex align-items-center">
+          <Button
+            type="button"
+            className={`${state.filterType === FilterType.ACTIVE
+              ? 'active'
+              : ''
+            } d-flex align-items-center`}>
             <svg style={{ width: '24px', height: '24px', marginRight: '4px' }} width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-list-task" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
               <path fillRule="evenodd" d="M2 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5V3a.5.5 0 0 0-.5-.5H2zM3 3H2v1h1V3z"/>
               <path d="M5 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM5.5 7a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9zm0 4a.5.5 0 0 0 0 1h9a.5.5 0 0 0 0-1h-9z"/>
@@ -192,7 +202,12 @@ export const TodoList = () => {
             </svg>
             Active
           </Button>
-          <Button type="button" className="d-flex align-items-center">
+          <Button
+            type="button"
+            className={`${state.filterType === FilterType.COMPLETE
+              ? 'active'
+              : ''
+            } d-flex align-items-center`}>
             <svg style={{ width: '24px', height: '24px', marginRight: '4px' }} width="1em" height="1em" viewBox="0 0 16 16" className="bi bi-list-check" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
               <path fillRule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3.854 2.146a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 3.293l1.146-1.147a.5.5 0 0 1 .708 0zm0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 7.293l1.146-1.147a.5.5 0 0 1 .708 0zm0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
             </svg>
