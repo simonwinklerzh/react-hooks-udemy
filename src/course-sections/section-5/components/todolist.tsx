@@ -35,8 +35,8 @@ const TodoItemTemplate = (
 ) => (
   <ListGroup.Item key={todo.id}>
     <Form.Group  className="mb-0" controlId={`formBasicCheckbox-${todo.id}`}>
-      <div className="d-flex justify-content-between align-items-center">
-        <InputGroup className="mr-2">
+      <div className="d-sm-flex justify-content-between align-items-center">
+        <InputGroup className="mr-2  mb-2 mb-sm-0">
           <InputGroup.Prepend>
             <InputGroup.Checkbox
               onChange={(e: React.ChangeEvent) => {
@@ -128,8 +128,8 @@ const EditTodoItemTemplate = (
         }
       }}>
       <Form.Group  className="mb-0" controlId={`formBasicCheckbox-${todo.id}`}>
-        <div className="d-flex justify-content-between align-items-center">
-          <InputGroup className="mr-2">
+        <div className="d-sm-flex justify-content-between align-items-center">
+          <InputGroup className="mr-2 mb-2 mb-sm-0">
             <InputGroup.Prepend>
               <InputGroup.Checkbox
                 disabled
@@ -188,7 +188,7 @@ const FilterButtons = (
 ) => (
   <div className="mt-3">
     <p>Filter todos:</p>
-    <ButtonGroup aria-label="Basic example">
+    <ButtonGroup className="d-sm-flex" aria-label="Basic example">
       <Button
         onClick={(e: React.MouseEvent) => {
           dispatch({
@@ -318,7 +318,7 @@ export const TodoList = () => {
         )
         : <EmptyTodoList />
       }
-      <div className="d-flex justify-content-between">
+      <div className="d-md-flex justify-content-between">
         { FilterButtons(state, dispatch) }
         { ClearButton(state, dispatch) }
       </div>
