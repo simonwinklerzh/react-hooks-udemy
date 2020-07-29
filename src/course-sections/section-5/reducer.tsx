@@ -83,6 +83,11 @@ export const todosReducer = (state: TodoStateType, action: TodoActions) => {
         ...state,
         editId: action.payload.editId
       }
+    case ActionTypes.SET_FILTER:
+      return {
+        ...state,
+        filterType: action.payload.filter
+      }
     default:
       return state;
   }
