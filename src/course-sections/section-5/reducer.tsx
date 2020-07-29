@@ -88,6 +88,11 @@ export const todosReducer = (state: TodoStateType, action: TodoActions) => {
         ...state,
         filterType: action.payload.filter
       }
+    case ActionTypes.CLEAR_COMPLETED:
+      return {
+        ...state,
+        todos: state.todos.filter(todo => todo.complete !== true)
+      }
     default:
       return state;
   }

@@ -234,6 +234,10 @@ const ClearButton = (
   <div className="mt-3 d-flex align-items-end">
     <Button
       onClick={(e: React.MouseEvent) => {
+        dispatch({
+          type: ActionTypes.CLEAR_COMPLETED,
+          payload: true
+        });
       }}
       variant="danger"
       type="button"
