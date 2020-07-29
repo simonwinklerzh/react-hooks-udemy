@@ -101,12 +101,14 @@ let mostRecentQuery: string | null = null;
 
 const getResults = async (
   query: string,
+  setQuery: Function,
   setResults: Function,
   setLoading: Function,
   setError: Function
 ) => {
-  if (!query) {
+  if (!query?.trim()) {
     setResults([]);
+    setQuery('');
     return;
   }
   const currentQuery = `http://hn.algolia.com/api/v1/search?query=${query}`;
@@ -138,7 +140,7 @@ export default function App() {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    getResults(query, setResults, setLoading, setError);
+    getResults(query, setQuery, setResults, setLoading, setError);
   };
 
   return (
@@ -153,6 +155,7 @@ export default function App() {
                   placeholder="Enter search term"
                   aria-label="Enter search term"
                   aria-describedby="basic-addon2"
+                  value={query}
                   onChange={(e) => {
                     setQuery(e.target.value);
                   }}
