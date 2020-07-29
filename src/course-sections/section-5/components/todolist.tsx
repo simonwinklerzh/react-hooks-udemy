@@ -2,6 +2,8 @@ import React, { useContext, useRef, FormEvent } from 'react';
 import {
   Container,
   ListGroup,
+  InputGroup,
+  FormControl,
   Form,
   Button
 } from 'react-bootstrap';
@@ -16,21 +18,28 @@ const TodoItemTemplate = (
   <ListGroup.Item key={todo.id}>
     <Form.Group  className="mb-0" controlId={`formBasicCheckbox-${todo.id}`}>
       <div className="d-flex justify-content-between align-items-center">
-        <Form.Check
-          onChange={(e: React.ChangeEvent) => {
-            dispatch({
-              type: ActionTypes.TOGGLE_TODO,
-              payload: {
-                id: todo.id
-              }
-            });
-          }}
-          checked={todo.complete}
-          type="checkbox"
-          className="d-flex align-items-center"
-          label={todo.text} />
-        <div>
+        <InputGroup className="mr-2">
+          <InputGroup.Prepend>
+            <InputGroup.Checkbox
+              onChange={(e: React.ChangeEvent) => {
+                dispatch({
+                  type: ActionTypes.TOGGLE_TODO,
+                  payload: {
+                    id: todo.id
+                  }
+                });
+              }}
+              checked={todo.complete}
+              aria-label="Checkbox for following text input" />
+          </InputGroup.Prepend>
+          <FormControl
+            readOnly
+            defaultValue={todo.text}
+            aria-label="Text input with checkbox" />
+        </InputGroup>
+        <div className="d-flex">
           <Button
+            className="mr-2"
             onClick={(e: React.MouseEvent) => {
               dispatch({
                 type: ActionTypes.EDIT_TODO,
@@ -39,9 +48,7 @@ const TodoItemTemplate = (
                 }
               })
             }}
-            type="button"
-            variant="info"
-            size="sm">Edit</Button>
+            type="button">Edit</Button>
            {' '}
           <Button
             onClick={(e: React.MouseEvent) => {
@@ -53,8 +60,7 @@ const TodoItemTemplate = (
               })
             }}
             type="button"
-            variant="warning"
-            size="sm">Remove</Button>
+            variant="danger">Remove</Button>
         </div>
       </div>
     </Form.Group>
@@ -69,43 +75,62 @@ const EditTodoItemTemplate = (
 ) => (
   <ListGroup.Item key={todo.id}>
     <Form onSubmit={(e: FormEvent) => {
-      e.preventDefault();
-      if (editTodoInputRef?.current) {
-        dispatch({
-          type: ActionTypes.UPDATE_TODO,
-          payload: {
-            todo: {
-              ...todo,
-              text: editTodoInputRef.current.value
-            }
-          }
-        });
-      }
-    }}>
-      <Form.Group controlId="formBasicEmail">
-        <Form.Label>Edit Todo</Form.Label>
-        <Form.Control
-          type="text"
-          defaultValue={todo.text}
-          ref={editTodoInputRef} />
-      </Form.Group>
-      <Button variant="primary" type="submit">
-        Save
-      </Button>
-      {' '}
-      <Button
-        variant="primary"
-        type="button"
-        onClick={(e: React.MouseEvent) => {
+        e.preventDefault();
+        if (editTodoInputRef?.current) {
           dispatch({
-            type: ActionTypes.EDIT_TODO,
+            type: ActionTypes.UPDATE_TODO,
             payload: {
-              editId: null
+              todo: {
+                ...todo,
+                text: editTodoInputRef.current.value
+              }
             }
-          })
-        }}>
-        Cancel
-      </Button>
+          });
+        }
+      }}>
+      <Form.Group  className="mb-0" controlId={`formBasicCheckbox-${todo.id}`}>
+        <div className="d-flex justify-content-between align-items-center">
+          <InputGroup className="mr-2">
+            <InputGroup.Prepend>
+              <InputGroup.Checkbox
+                disabled
+                onChange={(e: React.ChangeEvent) => {
+                  dispatch({
+                    type: ActionTypes.TOGGLE_TODO,
+                    payload: {
+                      id: todo.id
+                    }
+                  });
+                }}
+                checked={todo.complete}
+                aria-label="Checkbox for following text input" />
+            </InputGroup.Prepend>
+            <FormControl
+              defaultValue={todo.text}
+              ref={editTodoInputRef}
+              autoFocus
+              aria-label="Text input with checkbox" />
+          </InputGroup>
+          <div className="d-flex">
+            <Button className="mr-2" variant="success" type="submit">
+              Save
+            </Button>
+            <Button
+              variant="warning"
+              type="button"
+              onClick={(e: React.MouseEvent) => {
+                dispatch({
+                  type: ActionTypes.EDIT_TODO,
+                  payload: {
+                    editId: null
+                  }
+                })
+              }}>
+              Cancel
+            </Button>
+          </div>
+        </div>
+      </Form.Group>
     </Form>
   </ListGroup.Item>
 );
