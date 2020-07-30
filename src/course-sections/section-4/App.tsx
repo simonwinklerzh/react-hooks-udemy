@@ -126,9 +126,11 @@ const getResults = async (
     })
     .catch((error) => {
       console.error(error);
-      setLoading(false);
-      setResults([]);
-      setError(error);
+      if (currentQuery === mostRecentQuery) {
+        setLoading(false);
+        setResults([]);
+        setError(error);
+      }
     });
 }
 
