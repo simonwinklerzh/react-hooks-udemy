@@ -15,6 +15,7 @@ import {
  } from 'react-bootstrap';
 import AppCourseSection4 from './course-sections/section-4/App';
 import AppCourseSection5 from './course-sections/section-5/App';
+import AppCourseSection6 from './course-sections/section-6/App';
 import * as serviceWorker from './serviceWorker';
 import './index.scss';
 
@@ -93,11 +94,19 @@ ReactDOM.render(
               }}
               navLinkText="Show Result" />
             <CourseSectionNavigationEntryWithRouter
-              link="/section-x"
+              link="/section-5"
               title="Section 5"
               subTitle="Building a complete CRUD App"
               text={{
                 __html: '<small><b>Course description:</b><br />Building a Complete CRUD App with React Hooks / Replacing Redux</small>'
+              }}
+              navLinkText="Show Result" />
+            <CourseSectionNavigationEntryWithRouter
+              link="/section-6"
+              title="Section 6"
+              subTitle="Connecting our App to an API"
+              text={{
+                __html: '<small><b>Description:</b><br />Basic integration of a REST API using the Vercel platform. <i>I\'m not very happy with the integration yet. I think there must be a more elegant and decoupled way.</i></small>'
               }}
               navLinkText="Show Result" />
           </CardGroup>
@@ -107,8 +116,11 @@ ReactDOM.render(
         <Route path="/section-4">
           <AppCourseSection4 />
         </Route>
-        <Route path="/section-x">
+        <Route path="/section-5">
           <AppCourseSection5 />
+        </Route>
+        <Route path="/section-6">
+          <AppCourseSection6 />
         </Route>
       </Switch>
     </Router>
