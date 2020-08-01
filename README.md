@@ -4,6 +4,29 @@ This repository is used to hold my results for some of the excercises from the c
 
 
 
+|      |      |
+| ---- | ---- |
+| ![./screenshot-readme-1.jpg](./screenshot-readme-1.jpg) | ![](./screenshot-readme-2.jpg)     |
+
+
+
+- I only roughly followed the course instructions
+- I used this project to play around with Typescript, and React Hooks
+- I've build a navigation which can be used to navigate between the results of different course sections
+- I've used React-Bootstrap for basic styling
+
+
+
+**Section 6:** In section 6, the topic was to integrate a simple REST API with the Todo-List app from section 5. I'm not very happy with the current implementation in section 6. I think there must be a better way where the logic for the API integration is less coupled with the UI components. Also, error and loading states are not properly handled in the UI yet.
+
+
+
+
+
+
+
+
+
 # Default create-react-app readme content:
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
