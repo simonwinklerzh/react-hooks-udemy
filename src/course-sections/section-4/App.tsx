@@ -150,7 +150,7 @@ export default function App() {
       <Container>
         <h1 className="mt-3 h4">Search on Hacker News</h1>
         <Row>
-          <Col sm={6}>
+          <Col md={6}>
             <form onSubmit={handleSubmit}>
               <InputGroup className="mb-3">
                 <FormControl
