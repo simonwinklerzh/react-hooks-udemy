@@ -58,11 +58,7 @@ export const todoFilterFunction = (todo: TodoType, filter: FilterType): boolean 
 }
 
 export const initialState = {
-  todos: [
-    {...createNewTodo(), text: 'Apfel'},
-    {...createNewTodo(), text: 'Birne'},
-    {...createNewTodo(), text: 'Orange'}
-  ],
+  todos: [],
   editId: null,
   filterType: FilterType.ALL
 }
@@ -70,7 +66,9 @@ export const initialState = {
 export const AppContext = createContext<{
   state: TodoStateType;
   dispatch: React.Dispatch<TodoActions>;
+  resultsFetcher: Function;
 }>({
   state: initialState,
-  dispatch: () => null
+  dispatch: () => null,
+  resultsFetcher: () => null
 });

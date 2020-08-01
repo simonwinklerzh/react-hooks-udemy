@@ -7,16 +7,32 @@ import {
 } from 'react-bootstrap';
 import { AppContext, createNewTodo, TodoType } from '../context';
 import { ActionTypes, TodoActions } from '../reducer';
+import {
+  ResultStatusType,
+  resultsAddFetcher,
+  AddResult
+} from '../../../utilities';
 
 const handleSubmit = (
   todo: TodoType,
   dispatch: React.Dispatch<TodoActions>
 ) => {
   if (todo.text.trim()) {
-    dispatch({
-      type: ActionTypes.ADD_TODO,
-      payload: { todo }
-    });
+    const addUrl = `https://hooks-api.simonwinklerzh.vercel.app/todos/`;
+    resultsAddFetcher(
+      addUrl,
+      todo,
+      function (result: AddResult) {
+        switch (result.status) {
+          case ResultStatusType.SUCCESS:
+            dispatch({
+              type: ActionTypes.ADD_TODO,
+              payload: { todo }
+            });
+            return;
+        }
+      }
+    );
   }
 }
 

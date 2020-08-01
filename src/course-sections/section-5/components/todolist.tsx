@@ -1,4 +1,4 @@
-import React, { useContext, useRef, FormEvent } from 'react';
+import React, { useContext, useRef, FormEvent, useEffect, useState } from 'react';
 import {
   Container,
   ListGroup,
@@ -7,7 +7,8 @@ import {
   ButtonGroup,
   Form,
   Button,
-  Badge
+  Badge,
+  Alert
 } from 'react-bootstrap';
 import {
   AppContext,
@@ -19,11 +20,39 @@ import {
   todoFilterFunction
 } from '../context';
 import { ActionTypes, TodoActions } from '../reducer';
+import {
+  Result,
+  ResultStatusType,
+  resultsDeleteFetcher,
+  DeleteResult,
+  resultsAddFetcher,
+  AddResult,
+  resultsUpdateFetcher,
+  UpdateResult
+} from '../../../utilities';
 
 const EmptyTodoList = () => (
-  <ListGroup>
+  <ListGroup className="mb-2">
     <ListGroup.Item>
       <p className=" text-muted mb-0"><em>Add some todos using the input field above</em></p>
+    </ListGroup.Item>
+  </ListGroup>
+);
+
+const ErrorFetchingTodoList = () => (
+  <ListGroup className="mb-2">
+    <ListGroup.Item>
+      <Alert variant="danger" className="mb-0">
+        <p className=" text-muted mb-0"><em>We failed to load your todos from the server</em></p>
+      </Alert>
+    </ListGroup.Item>
+  </ListGroup>
+);
+
+const LoadingTodoList = () => (
+  <ListGroup className="mb-2">
+    <ListGroup.Item>
+      <p className=" text-muted mb-0"><em>Loading todos from server</em></p>
     </ListGroup.Item>
   </ListGroup>
 );
@@ -40,12 +69,23 @@ const TodoItemTemplate = (
           <InputGroup.Prepend>
             <InputGroup.Checkbox
               onChange={(e: React.ChangeEvent) => {
-                dispatch({
-                  type: ActionTypes.TOGGLE_TODO,
-                  payload: {
-                    id: todo.id
+                const updateUrl = `https://hooks-api.simonwinklerzh.vercel.app/todos/${todo.id}`;
+                resultsUpdateFetcher(
+                  updateUrl,
+                  { ...todo, complete: !todo.complete },
+                  function (result: UpdateResult) {
+                    switch (result.status) {
+                      case (ResultStatusType.SUCCESS):
+                        dispatch({
+                          type: ActionTypes.TOGGLE_TODO,
+                          payload: {
+                            id: todo.id
+                          }
+                        });
+                        return;
+                    }
                   }
-                });
+                )
               }}
               checked={todo.complete}
               aria-label="Checkbox for following text input" />
@@ -76,12 +116,23 @@ const TodoItemTemplate = (
            {' '}
           <Button
             onClick={(e: React.MouseEvent) => {
-              dispatch({
-                type: ActionTypes.REMOVE_TODO,
-                payload: {
-                  id: todo.id
+              const deleteUrl = `https://hooks-api.simonwinklerzh.vercel.app/todos/${todo.id}`;
+              resultsDeleteFetcher(
+                deleteUrl,
+                function(result: DeleteResult) {
+                  switch (result.status) {
+                    case ResultStatusType.SUCCESS:
+                      dispatch({
+                        type: ActionTypes.REMOVE_TODO,
+                        payload: {
+                          id: todo.id
+                        }
+                      });
+                      return;
+                  }
                 }
-              })
+              );
+
             }}
             type="button"
             variant="danger"
@@ -110,15 +161,23 @@ const EditTodoItemTemplate = (
         if (editTodoInputRef?.current?.value) {
           // Dispatch the action if the value consists of more than white spaces
           if (editTodoInputRef.current.value.trim()) {
-            dispatch({
-              type: ActionTypes.UPDATE_TODO,
-              payload:   {
-                todo: {
-                  ...todo,
-                  text: editTodoInputRef.current.value
+            const updateUrl = `https://hooks-api.simonwinklerzh.vercel.app/todos/${todo.id}`;
+            resultsUpdateFetcher(
+              updateUrl,
+              { ...todo, text: editTodoInputRef.current.value },
+              function (result: UpdateResult) {
+                switch (result.status) {
+                  case (ResultStatusType.SUCCESS):
+                    if (!editTodoInputRef?.current?.value) return;
+                    dispatch({
+                      type: ActionTypes.UPDATE_TODO,
+                      payload:   {
+                        todo: result.data
+                      }
+                    });
                 }
               }
-            });
+            )
           }
           // Otherwise reset the input field to an empty string
           else {
@@ -133,14 +192,6 @@ const EditTodoItemTemplate = (
             <InputGroup.Prepend>
               <InputGroup.Checkbox
                 disabled
-                onChange={(e: React.ChangeEvent) => {
-                  dispatch({
-                    type: ActionTypes.TOGGLE_TODO,
-                    payload: {
-                      id: todo.id
-                    }
-                  });
-                }}
                 checked={todo.complete}
                 aria-label="Checkbox for following text input" />
             </InputGroup.Prepend>
@@ -295,15 +346,65 @@ const TodosInfo = (
   </p>
 )
 
+const fetchResults = (
+  resultsFetcher: Function,
+  dispatch: Function,
+  setLoading: Function,
+  setError: Function) => {
+  resultsFetcher(
+    'https://hooks-api.simonwinklerzh.vercel.app/todos',
+    function (result: Result) {
+      switch (result.status) {
+        case ResultStatusType.SUCCESS:
+          result.data.forEach(todo => {
+            dispatch({
+              type: ActionTypes.ADD_TODO,
+              payload: { todo }
+            })
+          });
+          setLoading(false);
+          setError(false);
+          return;
+        case ResultStatusType.LOADING:
+          setLoading(true);
+          setError(false);
+          return;
+        case ResultStatusType.ERROR:
+          setError(result.data);
+          setLoading(false);
+          return;
+      }
+    }
+  );
+}
+
 export const TodoList = () => {
-  const { state, dispatch } = useContext(AppContext);
+  const { state, dispatch, resultsFetcher } = useContext(AppContext);
   const editTodoInputRef = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<false | Error>(false);
+
+  useEffect(() => {
+    window.setTimeout(function () {
+      fetchResults(resultsFetcher, dispatch, setLoading, setError);
+    }, 5000)
+
+  }, [dispatch, resultsFetcher]);
+
   return (
     <Container>
       <div className="mt-3 d-flex justify-content-between">
         <h2 className="h4">Todos</h2>
         { TodosInfo(state) }
       </div>
+      { loading
+        ? <LoadingTodoList />
+        : null
+      }
+      { error
+        ? <ErrorFetchingTodoList />
+        : null
+      }
       { state.todos.length
         ? (
           <ListGroup>
